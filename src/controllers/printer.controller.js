@@ -4,7 +4,7 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 
 const getPrinter = catchAsync(async (req, res) => {
-  const print = getPrinterNames();
+  const print = await getPrinterNames();
   if (!print) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
