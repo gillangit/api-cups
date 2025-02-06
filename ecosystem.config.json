@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "app",
+      "name": "api-cups",
       "script": "src/index.js",
       "instances": 1,
       "autorestart": true,
