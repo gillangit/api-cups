@@ -1,15 +1,12 @@
-const Cups = require("node-cups");
-const catchAsync = require("../utils/catchAsync");
-const ApiError = require("../utils/ApiError");
-const httpStatus = require("http-status");
+const cups = require('node-cups');
+const httpStatus = require('http-status');
+const catchAsync = require('../utils/catchAsync');
+const ApiError = require('../utils/ApiError');
 
-const cups = new Cups();
-
-// 1. Get List of Printers
 const getPrinters = catchAsync(async (req, res) => {
   const printers = await cups.getPrinters();
   if (!printers) {
-    throw new ApiError(httpStatus.NOT_FOUND, "No printers found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'No printers found');
   }
   res.status(httpStatus.OK).send(printers);
 });
@@ -19,7 +16,7 @@ const getPrinterAttributes = catchAsync(async (req, res) => {
   const { printerName } = req.params;
   const attributes = await cups.getPrinterAttributes(printerName);
   if (!attributes) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Printer not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'Printer not found');
   }
   res.status(httpStatus.OK).send(attributes);
 });
@@ -27,10 +24,10 @@ const getPrinterAttributes = catchAsync(async (req, res) => {
 // 3. Print File
 const printFile = catchAsync(async (req, res) => {
   const { printerName } = req.body;
-  const filePath = req.file?.path;
+  const filePath = req.file && req.file.path;
 
   if (!filePath) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "File is required");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'File is required');
   }
 
   await cups.printFile(printerName, filePath);
@@ -48,7 +45,7 @@ const getJobAttributes = catchAsync(async (req, res) => {
   const { jobId } = req.params;
   const jobAttributes = await cups.getJobAttributes(jobId);
   if (!jobAttributes) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Print job not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'Print job not found');
   }
   res.status(httpStatus.OK).send(jobAttributes);
 });
@@ -85,7 +82,7 @@ const deletePrinter = catchAsync(async (req, res) => {
 const addPrinter = catchAsync(async (req, res) => {
   const { printerName, deviceUri, ppdFile } = req.body;
   if (!printerName || !deviceUri || !ppdFile) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Missing required fields");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Missing required fields');
   }
 
   await cups.addPrinter(printerName, deviceUri, ppdFile);

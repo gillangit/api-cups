@@ -1,24 +1,24 @@
 const express = require('express');
-const multer = require("multer");
+const multer = require('multer');
 const printerController = require('../../controllers/printer.controller');
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" }); // Menyimpan file sementara
+const upload = multer({ dest: 'uploads/' }); // Menyimpan file sementara
 
 // Printer Management
-router.get("/printers", PrinterController.getPrinters);
-router.get("/printer/:printerName", PrinterController.getPrinterAttributes);
-router.delete("/printer/:printerName", PrinterController.deletePrinter);
-router.post("/printer", PrinterController.addPrinter);
+router.get('/printers', printerController.getPrinters);
+router.get('/printer/:printerName', printerController.getPrinterAttributes);
+router.delete('/printer/:printerName', printerController.deletePrinter);
+router.post('/printer', printerController.addPrinter);
 
 // Print Job Management
-router.post("/print", upload.single("file"), PrinterController.printFile);
-router.get("/jobs", PrinterController.getPrintJobs);
-router.get("/job/:jobId", PrinterController.getJobAttributes);
-router.delete("/job/:jobId", PrinterController.cancelJob);
+router.post('/print', upload.single('file'), printerController.printFile);
+router.get('/jobs', printerController.getPrintJobs);
+router.get('/job/:jobId', printerController.getJobAttributes);
+router.delete('/job/:jobId', printerController.cancelJob);
 
 // Printer Control
-router.put("/printer/:printerName/pause", PrinterController.pausePrinter);
-router.put("/printer/:printerName/resume", PrinterController.resumePrinter);
+router.put('/printer/:printerName/pause', printerController.pausePrinter);
+router.put('/printer/:printerName/resume', printerController.resumePrinter);
 
 module.exports = router;
