@@ -26,5 +26,5 @@ jobs:
     - name: Ensure app is running with PM2
       run: |
         # Check if the app is running and start it if not
-        pm2 show api-cups || pm2 start npm --name "api-cups" -- run start
+        pm2 show api-cups || pm2 start npm --name "api-cups" -- run startpm2
         pm2 restart api-cups
