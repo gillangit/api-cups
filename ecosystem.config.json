@@ -9,7 +9,8 @@
       "time": true,
       "env": {
         "NODE_ENV": "production",
-        "PORT": 5001
+        "PORT": 5001,
+        "X_API_KEY": "9a8b7c6d5e4f3g2h1i0jklmnopqrstuvwx123456789abcdef"
       }
     }
   ]

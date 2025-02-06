@@ -1,24 +1,17 @@
 const express = require('express');
-const multer = require('multer');
 const printerController = require('../../controllers/printer.controller');
+const verifyApiKey = require('../../middlewares/verifyapi');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' }); // Menyimpan file sementara
 
-// Printer Management
-router.get('/printers', printerController.getPrinters);
-router.get('/printer/:printerName', printerController.getPrinterAttributes);
-router.delete('/printer/:printerName', printerController.deletePrinter);
-router.post('/printer', printerController.addPrinter);
-
-// Print Job Management
-router.post('/print', upload.single('file'), printerController.printFile);
-router.get('/jobs', printerController.getPrintJobs);
-router.get('/job/:jobId', printerController.getJobAttributes);
-router.delete('/job/:jobId', printerController.cancelJob);
-
-// Printer Control
-router.put('/printer/:printerName/pause', printerController.pausePrinter);
-router.put('/printer/:printerName/resume', printerController.resumePrinter);
+router.get('/printers', verifyApiKey, printerController.getPrinters);
+router.get('/printer/:printerName', verifyApiKey, printerController.getPrinterSettings);
+router.get('/printers/options', verifyApiKey, printerController.getAllPrintersSettings);
+router.get('/jobs/completed', verifyApiKey, printerController.getCompletedJobs);
+router.get('/jobs/pending', verifyApiKey, printerController.getPendingJobs);
+router.post('/print/text', verifyApiKey, printerController.printTextBuffer);
+router.post('/print/file', verifyApiKey, printerController.printFileDocument);
+router.delete('/print/cancel/:jobId', verifyApiKey, printerController.cancelPrintJob);
+router.delete('/print/cancel-all', verifyApiKey, printerController.cancelAllPrintJobs);
 
 module.exports = router;
